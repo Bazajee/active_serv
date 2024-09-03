@@ -12,7 +12,7 @@ services:
       MYSQL_PASSWORD: ${MARIADB_PASSWORD}
     volumes:
       - ./db/data:/var/lib/mysql
-      - ./init:/docker-entrypoint-initdb.d/
+      - ./db/init:/docker-entrypoint-initdb.d/
     ports:
       - "${MARIADB_PORT}:${MARIADB_PORT}"
 
