@@ -2,3 +2,4 @@ node_modules
 db/data/
 nest_app/dist
 nest_app/node_modules
+nest_app/prisma/migrations/
