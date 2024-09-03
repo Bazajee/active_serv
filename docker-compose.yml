@@ -1,0 +1,48 @@
+
+services:
+
+
+  db:
+    image: mariadb:11.5
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MARIADB_DATABASE}
+      MYSQL_USER: ${MARIADB_USER}
+      MYSQL_PASSWORD: ${MARIADB_PASSWORD}
+    volumes:
+      - ./back-end/db/data:/var/lib/mysql
+      - ./back-end/init:/docker-entrypoint-initdb.d/
+    ports:
+      - "${MARIADB_PORT}:${MARIADB_PORT}"
+
+
+  admirer:
+    image: adminer
+    restart: on-failure
+    ports:
+      - 8080:8080
+
+  nest:
+    build:
+      context: ./back-end/nest_app
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "${NEST_RUNNING_PORT}:${NEST_RUNNING_PORT}"
+    environment:
+      DB_TYPE: mariadb
+    volumes:
+      - ./back-end/nest_app:/app
+
+  # nginx:
+  #   image: nginx
+  #   restart: always
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - .back-end/nginx:/etc/nginx/conf.d/default.conf
+
+
+

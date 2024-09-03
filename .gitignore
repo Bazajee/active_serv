@@ -1,0 +1,5 @@
+node_modules
+back-end/db/data/
+back-end/db/data_shadow/
+back-end/nest_app/dist
+back-end/nest_app/node_modules
