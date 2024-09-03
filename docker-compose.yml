@@ -11,8 +11,8 @@ services:
       MYSQL_USER: ${MARIADB_USER}
       MYSQL_PASSWORD: ${MARIADB_PASSWORD}
     volumes:
-      - ./back-end/db/data:/var/lib/mysql
-      - ./back-end/init:/docker-entrypoint-initdb.d/
+      - ./db/data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d/
     ports:
       - "${MARIADB_PORT}:${MARIADB_PORT}"
 
@@ -25,7 +25,7 @@ services:
 
   nest:
     build:
-      context: ./back-end/nest_app
+      context: ./nest_app
       dockerfile: Dockerfile
     depends_on:
       - db
@@ -34,7 +34,7 @@ services:
     environment:
       DB_TYPE: mariadb
     volumes:
-      - ./back-end/nest_app:/app
+      - ./nest_app:/app
 
   # nginx:
   #   image: nginx
