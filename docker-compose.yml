@@ -26,15 +26,15 @@ services:
   nest:
     build:
       context: ./nest_app
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     depends_on:
       - db
     ports:
       - "${NEST_RUNNING_PORT}:${NEST_RUNNING_PORT}"
     environment:
-      DB_TYPE: mariadb
-    volumes:
-      - ./nest_app:/app
+      DATABASE_URL: ${DATABASE_URL}
+      SHADOW_DATABASE_URL: ${SHADOW_DATABASE_URL}
+
 
   # nginx:
   #   image: nginx

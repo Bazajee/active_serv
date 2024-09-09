@@ -1,0 +1,21 @@
+
+FROM node:18-alpine AS build
+WORKDIR /app
+# Copy package.json to handle docker caches & layers
+COPY package*.json ./
+RUN npm install --production
+COPY . .
+EXPOSE ${NEST_RUNNING_PORT}
+RUN npm run build
+
+# add user with sudo right and exec with this user. Do not run the container with root user 
+
+
+FROM node:18-alpine AS production
+WORKDIR /app
+COPY --from=build /app/dist ./dist
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/package*.json ./
+ENV NODE_ENV=production
+EXPOSE ${NEST_RUNNING_PORT}
+CMD ["npm", "run", "start:prod"]
