@@ -4,8 +4,9 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install && npm install -g @nestjs/cli
 COPY . .
-RUN npm install
-RUN npm run build
+# RUN npx prisma validate 
+# RUN npx prisma generate 
+EXPOSE ${NEST_RUNNING_PORT}
 CMD ["npm", "run", "start:dev"]
 
 
