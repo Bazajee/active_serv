@@ -35,10 +35,12 @@ services:
       - "5555:5555" # only in dev 
     volumes:
       - ./nest_app:/app  
+      - /app/node_modules
     environment:
       DATABASE_URL: ${DATABASE_URL}
       SHADOW_DATABASE_URL: ${SHADOW_DATABASE_URL}
       NEST_RUNNING_PORT :  ${NEST_RUNNING_PORT}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
 
       
   #   image: nginx

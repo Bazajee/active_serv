@@ -8,7 +8,7 @@ import { AuthDto } from './dto/auth.dto';
 export class AuthController {
     constructor(private authService: AuthService) {}
     @Post('initSession')
-    async logIn(@Body() dto: AuthDto): Promise<string> {
+    async logIn(@Body() dto: AuthDto): Promise<object> {
         return  await this.authService.login(dto)
     }
 }
