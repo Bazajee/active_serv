@@ -1,0 +1,1 @@
+- check db/ and data/ right (must be 775)
