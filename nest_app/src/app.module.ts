@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { PrismaModule } from './prisma/prisma.module';
+import { UsersModule } from './core/users/users.module';
+import { PrismaModule } from './core/prisma/prisma.module';
 import { JwtModule } from '@nestjs/jwt';
 
 @Module({

@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from 'src/core/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
-import { hasSubscribers } from 'diagnostics_channel';
-import { hash } from 'crypto';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
