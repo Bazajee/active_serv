@@ -7,8 +7,8 @@ export class PrismaService extends PrismaClient {
         super ({        
             datasources: {
                 db : {
-                    // url :  process.env.DATABASE_URL
-                    url: 'mysql://test_user:test@db:3306/mydatabase'
+                    url :  process.env.DATABASE_URL
+                    // url: 'mysql://test_user:test@db:3306/mydatabase'
                 }
                 
             }

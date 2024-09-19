@@ -20,6 +20,8 @@ export class AuthService {
               email: body.email,  
             },
           });
+        const secret = process.env.JWT_SECRET_KEY
+        console.log(secret)
         if (!user) {
         return {'error':'User not found'}
         }
