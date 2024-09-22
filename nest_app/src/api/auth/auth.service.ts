@@ -20,7 +20,6 @@ export class AuthService {
                 email: body.email,
             },
         });
-        const hash = await bcrypt.hash(body.password, 10)
         if (!user) {
             return { error: 'User not found' };
         }
@@ -41,7 +40,7 @@ export class AuthService {
     async signUp (body: { email:string; username: string; password: string }) {
         console.log(body)
         const newUser = await this.usersService.createUser(body)
-        return body
+        return newUser
     }
 
 

@@ -10,17 +10,14 @@ export class UsersService {
 
     async createUser(requestData: { email:string; username: string; password: string }) {
         const hash = await bcrypt.hash(requestData.password, 10)
-        console.log(hash)
         const userData = {
             email: requestData.email,
             password: hash, 
             name: requestData.username,
         };
-        console.log(userData)
         const newUser = await this.prisma.user.create({
             data: userData
         })
-        console.log(newUser)
         return newUser
     }
 
