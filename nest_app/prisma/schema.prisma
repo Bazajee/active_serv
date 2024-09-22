@@ -5,18 +5,29 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
+    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+    provider          = "mysql"
+    url               = env("DATABASE_URL")
+
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  name  String
-  email String @unique
-  password  String
+    id          Int    @id @default(autoincrement())
+    name        String
+    email       String @unique
+    password    String
+    groupId     Int? 
+        userGroup   UserGroup? @relation(fields: [groupId], references: [id]) 
+
 }
+
+model UserGroup{
+    id          Int    @id @default(autoincrement())
+    group       String @unique 
+        user        User[]
+}
+

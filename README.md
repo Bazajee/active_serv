@@ -1,1 +1,2 @@
 - check db/ and data/ right (must be 775)
+- add sanitize and test 
