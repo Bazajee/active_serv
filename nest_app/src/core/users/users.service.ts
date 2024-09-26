@@ -101,7 +101,4 @@ export class UsersService {
             where: { email: email },
         });
     }
- 
-    // add isAdmin function to handle right in front and back
-    
 }
