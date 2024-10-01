@@ -1,14 +1,9 @@
-import {
-    Injectable,
-    Res,
-    Request,
-    UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/core/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/core/users/users.service';
-import { Response } from 'express';
+
 
 @Injectable()
 export class AuthService {
@@ -17,24 +12,6 @@ export class AuthService {
         private prisma: PrismaService,
         private jwtService: JwtService,
     ) {}
-
-    // async isAuth (@Request request: Request) {{
-    //     const cookie = request.cookie
-    //     if (!cookie) {
-    //         throw new UnauthorizedException('You are not log-in');
-    //     }
-    //     try {
-    //         // Verify the token using JwtService
-    //         const payload = this.jwtService.verify(token);
-
-    //         // You can perform additional checks on the payload if necessary
-    //         return payload;
-    //     } catch (err) {
-    //         throw new UnauthorizedException('Invalid or expired JWT');
-    //     }
-    //     }
-
-    // }
 
     private async validatePassword(
         plainPassword: string,
@@ -88,7 +65,7 @@ export class AuthService {
             return { message: 'Authentification failed' };
         }
         const jwtToken = await this.jwtService.signAsync(
-            { email: user.email, username: user.name, group: user.groupId },
+            { email: user.email, username: user.name, userId: user.id },
             { expiresIn: '1h' },
         );
         return { message: 'login succeed', token: jwtToken };

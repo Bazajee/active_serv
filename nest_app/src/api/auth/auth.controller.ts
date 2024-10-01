@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { AuthDto } from './dto/auth.dto';
 import { UserDto } from './dto/user.dto';
 import { Response } from 'express';
+import { Roles } from './roles/roles.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -39,5 +40,11 @@ export class AuthController {
             .status(HttpStatus.OK)
             .json({ message: logInResult.message });
         // define data need by the front
+    }
+
+    @Get('test-role')
+    @Roles()
+    async testRole(): Promise<object> {
+        return {'toto': 'toto'}
     }
 }
