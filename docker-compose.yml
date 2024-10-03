@@ -41,7 +41,6 @@ services:
       SHADOW_DATABASE_URL: ${SHADOW_DATABASE_URL}
       NEST_RUNNING_PORT :  ${NEST_RUNNING_PORT}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
-
       
   #   image: nginx
   #   restart: always

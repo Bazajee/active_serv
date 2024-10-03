@@ -25,6 +25,7 @@ model User {
 
 }
 
+// rename "group" in "role"
 model UserGroup{
     id          Int    @id @default(autoincrement())
     group       String @unique 

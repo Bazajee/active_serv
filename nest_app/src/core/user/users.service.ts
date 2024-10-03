@@ -66,6 +66,7 @@ export class UsersService {
         return user;
     }
 
+    // to test 
     async updateUser(requestData: {
         email: string;
         username: string;
