@@ -6,7 +6,7 @@ import { PrismaService } from 'src/core/prisma/prisma.service';
 export class GroupService {
     constructor(private prisma: PrismaService) {}
 
-    async getGroupById(id: number) {
+    getGroupById(id: number) {
         return this.prisma.userGroup.findUnique({
             where: { id },
         });

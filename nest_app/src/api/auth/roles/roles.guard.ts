@@ -18,7 +18,8 @@ export class RolesGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean>{
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
-    
+
+    console.log(roles)
   
     // If no roles are defined, grant access without role checking
     if (!roles) {
@@ -26,19 +27,23 @@ export class RolesGuard implements CanActivate {
     }
     // test if role is in UserGroup table 
     const request = context.switchToHttp().getRequest()
-    const payload = await this.JwtService.verifyAsync(request.cookies.jwt)
-    const user = await this.UserService.getUserById(payload.userId)
-
+    const payload =  await this.JwtService.verify(request.cookies.jwt)
+    const user =  await this.UserService.getUserById(payload.userId)
+    console.log(user)
     if (!user.groupId) {
       throw new UnauthorizedException('User is not in correct group.');
     }
-    
-    const role = this.GroupService.getGroupById(user.groupId)
-    console.log(role)
+
+    const userRole = await this.GroupService.getGroupById(user.groupId)
+    console.log(userRole)
+    console.log(typeof(userRole.group), typeof(roles))
+    console.log(userRole.group in roles)
+
+    // handle group priority in usergroup.service 
+
 
   
 
-  
     return true;
   }
 }
