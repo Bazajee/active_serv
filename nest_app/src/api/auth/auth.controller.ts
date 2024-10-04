@@ -43,7 +43,7 @@ export class AuthController {
     }
 
     @Get('test-role')
-    @Roles('ADMIN')
+    @Roles('ADMIN',) 
     async testRole(): Promise<object> {
         return {'toto': 'toto'}
     }

@@ -66,7 +66,7 @@ export class AuthService {
         }
         const jwtToken = await this.jwtService.signAsync(
             { email: user.email, username: user.name, userId: user.id },
-            { expiresIn: '1h' },
+            { expiresIn: '7h' },
         );
         return { message: 'login succeed', token: jwtToken };
     }

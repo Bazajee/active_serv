@@ -18,32 +18,26 @@ export class RolesGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean>{
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
-
-    console.log(roles)
-  
-    // If no roles are defined, grant access without role checking
+    const allGroup = await this.GroupService.getAllGroup()
     if (!roles) {
       return true
     }
-    // test if role is in UserGroup table 
+    roles.forEach(role => {
+      if ( !allGroup.includes(role) ) {
+        throw new UnauthorizedException('Role setup for this function is not correctly')}
+    })
+
     const request = context.switchToHttp().getRequest()
     const payload =  await this.JwtService.verify(request.cookies.jwt)
     const user =  await this.UserService.getUserById(payload.userId)
-    console.log(user)
     if (!user.groupId) {
       throw new UnauthorizedException('User is not in correct group.');
     }
 
     const userRole = await this.GroupService.getGroupById(user.groupId)
-    console.log(userRole)
-    console.log(typeof(userRole.group), typeof(roles))
-    console.log(userRole.group in roles)
-
-    // handle group priority in usergroup.service 
-
-
-  
-
-    return true;
+    if (roles.includes(userRole.group)){
+      return true
+    }    
+    // design table to give possibilie to an admin to create group, and activate and deactivate functionality for specific group
   }
 }
