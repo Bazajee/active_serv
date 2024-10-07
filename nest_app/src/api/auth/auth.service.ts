@@ -3,6 +3,7 @@ import { PrismaService } from 'src/core/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/core/user/users.service';
+import { GroupService } from 'src/group/group.service';
 
 
 @Injectable()
@@ -11,6 +12,8 @@ export class AuthService {
         private usersService: UsersService,
         private prisma: PrismaService,
         private jwtService: JwtService,
+        private GroupService: GroupService
+
     ) {}
 
     private async validatePassword(
@@ -52,7 +55,7 @@ export class AuthService {
     async logIn(body: {
         email: string;
         password: string;
-    }): Promise<{ message: string; token?: string }> {
+    }): Promise<{ message: string; token?: string, userData?: object  }> {
         const user = await this.usersService.getUserByEmail(body.email);
         if (!user) {
             return { message: 'this email is not register.' };
@@ -68,6 +71,7 @@ export class AuthService {
             { email: user.email, username: user.name, userId: user.id },
             { expiresIn: '7h' },
         );
-        return { message: 'login succeed', token: jwtToken };
+        
+        return { message: 'login succeed', token: jwtToken, userData: { mail: user.email, username: user.name, userId: user.id, userGroup: await this.GroupService.getGroupById(user.groupId) } };
     }
 }

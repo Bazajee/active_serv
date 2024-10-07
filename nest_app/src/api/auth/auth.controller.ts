@@ -24,7 +24,6 @@ export class AuthController {
         @Body() dto: AuthDto,
         @Res() response: Response,
     ): Promise<object> {
-        console.log('in controller');
         const logInResult = await this.authService.logIn(dto);
         if (!logInResult.token) {
             return response
@@ -34,11 +33,15 @@ export class AuthController {
         response.cookie('jwt', logInResult.token, {
             httpOnly: true,
             maxAge: 3600000,
+            sameSite: false,
         });
 
         return response
             .status(HttpStatus.OK)
-            .json({ message: logInResult.message });
+            .json({ 
+                message: logInResult.message,
+                userData: logInResult.userData
+            });
         // define data need by the front
     }
 
