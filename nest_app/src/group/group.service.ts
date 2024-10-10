@@ -8,9 +8,13 @@ export class GroupService {
     constructor(private prisma: PrismaService) {}
 
     getGroupById(id: number) {
+        if (!id) {
+            return {id: null, group: null}
+        }
         return this.prisma.userGroup.findUnique({
             where: { id },
         });
+
     }
 
     getAllGroup() {
