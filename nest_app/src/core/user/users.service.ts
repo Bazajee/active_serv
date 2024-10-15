@@ -98,26 +98,35 @@ export class UsersService {
         //  Update a User if new data is detect. Set only the field you want to be editable
         let changes = [];
         let newData = {};
+        
         const user = await this.prisma.user.findUnique({
             where: { email: requestData.email },
         });
-        if (user.name !== requestData.username) {
-            newData['name'] = requestData.username;
-            changes.push('User-name');
+    
+        if (!user) {
+            return 'User not found';
         }
-        if (await bcrypt.compare(requestData.password, user.password)) {
+
+        if (user.name !== requestData.username) {
+            newData['username'] = requestData.username;
+            changes.push('Username');
+        }
+    
+        const isSamePassword = await bcrypt.compare(requestData.password, user.password);
+        if (!isSamePassword) {
             const newHash = await bcrypt.hash(requestData.password, 10);
             newData['password'] = newHash;
             changes.push('Password');
         }
+    
         if (changes.length > 0) {
             await this.prisma.user.update({
                 where: { email: requestData.email },
                 data: newData,
             });
-            return `The ${changes} update succeed`;
+            return `The following updates succeeded: ${changes.join(', ')}`;
         }
-        return 'No changes detect';
+        return 'No changes detected';
     }
 
     async deleteUser(email: string) {
